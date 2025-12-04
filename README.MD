@@ -58,12 +58,12 @@ Email Validation Regex
 Swagger UI
 
 ```yaml
-/jobs/{id}:
+/countries/{id}:
   parameters:
     - in: path
       name: id
       schema:
         type: string
       required: true
-      description: the job id
+      description: the country id
 ```
