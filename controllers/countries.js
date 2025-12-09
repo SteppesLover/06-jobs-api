@@ -8,7 +8,14 @@ const getAllCountries = async (req, res) => {
 }
 
 const getCountry = async (req, res) => {
-    res.send('get country')
+    const {user:{userId}, params: {id:countryId}} = req
+    const country = await Country.findOne({
+        _id:countryId, createdBy: userId
+    })
+    if(!country){
+        throw new NotFoundError(`No country with id ${countryId}`)
+    }
+    res.status(StatusCodes.OK).json({country})
 }
 
 const createCountry = async (req, res) => {
@@ -18,11 +25,28 @@ const createCountry = async (req, res) => {
 }
 
 const updateCountry = async (req, res) => {
-    res.send('update country')
+    const {body: {name, province, governmentType}, user:{userId}, params: {id:countryId}} = req
+    if (name=== '' || province === '' || governmentType===''){
+        throw new BadRequestError('name, province or governmentType fields cannot be empty')
+    }
+    const country = await Country.findByIdAndUpdate({_id:countryId, createdBy:userId}, req.body, {new:true, runValidators:true})
+    if(!country){
+        throw new NotFoundError(`No country with id ${countryId}`)
+    }
+    res.status(StatusCodes.OK).json({country})
 }
 
 const deleteCountry = async (req, res) => {
-    res.send('delete country')
+    const { user:{userId}, params: {id:countryId}} = req
+    const country = await Country.findByIdAndRemove({
+        _id: countryId,
+        createdBy: userId
+    })
+
+    if(!country){
+        throw new NotFoundError(`No country with id ${countryId}`)
+    }
+    res.status(StatusCodes.OK).send()
 }
 
 module.exports = {

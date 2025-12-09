@@ -9,14 +9,29 @@ const authenticateUser = require('./middleware/authentication')
 //routers
 const authRouter = require('./routes/auth')
 const countriesRouter = require('./routes/countries')
+const helmet = require('helmet')
+const cors = require('cors')
+const xss = require('xss-clean')
+const rateLimiter = require('express-rate-limit')
 
 // error handler
 const notFoundMiddleware = require('./middleware/not-found');
 const errorHandlerMiddleware = require('./middleware/error-handler');
 
+app.set('trust proxy', 1);
 app.use(express.json());
 // extra packages
+app.use(helmet());
+app.use(cors());
+app.use(xss());
+app.use(rateLimiter({
+  windowMs: 15*60*1000,
+  max: 100,
+}));
 
+app.get('/', (req, res) =>{
+  res.send('VPI API')
+})
 // routes
 app.use('/api/v1/auth', authRouter)
 app.use('/api/v1/countries', authenticateUser, countriesRouter)
