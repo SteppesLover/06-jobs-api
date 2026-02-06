@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Countries List</title>
+  </head>
+
+  <body>
+    <h1>Countries List</h1>
+    <hr />
+    <p id="message"></p>
+    <hr />
+
+    <div id="auth" style="display:none;">
+      <button id="logon">Log in</button>
+      <button id="register">Register</button>
+    </div>
+
+    <div id="login-div" style="display:none;">
+      <form>
+        <label>Email:</label>
+        <input id="email" type="email" />
+        <label>Password:</label>
+        <input id="password" type="password" />
+        <button id="login-btn" type="button">Log in</button>
+        <button id="login-cancel" type="button">Cancel</button>
+      </form>
+    </div>
+
+    <div id="register-div" style="display:none;">
+      <form>
+        <label>Name:</label>
+        <input id="name" type="text" />
+
+        <label>Email:</label>
+        <input id="email1" type="email" />
+
+        <label>Password:</label>
+        <input id="password1" type="password" />
+
+        <label>Verify Password:</label>
+        <input id="password2" type="password" />
+
+        <button id="register-btn" type="button">Register</button>
+        <button id="register-cancel" type="button">Cancel</button>
+      </form>
+    </div>
+
+    <div id="countries" style="display:none;">
+      <p id="countries-message"></p>
+
+      <table id="countries-table">
+        <tr id="header-row">
+          <th>Name</th>
+          <th>Province</th>
+          <th>Government</th>
+          <th colspan="2"></th>
+        </tr>
+      </table>
+
+      <button id="add-country">Add Country</button>
+      <button id="logoff">Log Off</button>
+      <button id="show-all">Refresh countries</button>
+    </div>
+
+    <div id="edit-country" style="display:none;">
+      <form>
+        <label>Name:</label>
+        <input id="country-name" type="text">
+
+        <label>Province:</label>
+        <input id="country-province" type="number">
+
+        <label>Government:</label>
+        <select id="country-gov">
+          <option value="Barbarian">Barbarian</option>
+          <option value="Economist">Economist</option>
+          <option value="Soldier">Soldier</option>
+        </select>
+
+        <button id="country-save" type="button">Save</button>
+        <button id="country-cancel" type="button">Cancel</button>
+      </form>
+    </div>
+
+    <script src="./countries.js" type="module"></script>
+  </body>
+</html>
