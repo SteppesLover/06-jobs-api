@@ -4,7 +4,7 @@ const connectDB = require('./db/connect')
 const express = require('express');
 const app = express();
 
-
+const auth = require("./middleware/auth");
 const authenticateUser = require('./middleware/authentication')
 //routers
 const authRouter = require('./routes/auth')
@@ -29,6 +29,12 @@ app.use(rateLimiter({
   windowMs: 15*60*1000,
   max: 100,
 }));
+const passport = require("passport");
+const passportInit = require("./passport/passportInit");
+
+passportInit();
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.get('/', (req, res) =>{
   res.send('<h1>Jobs API</h1><a href="/api-docs">Documentation</a>');
@@ -36,7 +42,8 @@ app.get('/', (req, res) =>{
 // routes
 app.use('/api/v1/auth', authRouter)
 app.use('/api/v1/countries', authenticateUser, countriesRouter)
-
+const secretWordRouter = require("./routes/secretWord");
+app.use("/secretWord", auth, secretWordRouter);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
